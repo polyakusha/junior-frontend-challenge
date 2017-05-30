@@ -1,5 +1,12 @@
+const maximumTimer = 24*60*60;
+
+
 function startTimer(time, timerSelector) {
     var timerCount = time*60;
+    if (timerCount <=0 || timerCount > maximumTimer) {
+        alert ("Your timer is not valid");
+        return;
+    }
     var hours;
     var minutes;
     var seconds;
@@ -45,6 +52,17 @@ window.onload = function () {
             else {
                 startTimer(time, timerSelector);
             }
+        }
+    }
+    var userTimer = document.getElementById("get-input");
+    userTimer.onclick = function (){
+        time = parseInt(document.getElementById("user-timer").value);
+        document.getElementById("user-timer").value = "";
+        if (timerSelector.innerHTML !== "00:00") {
+            alert("Another timer is running");
+        }
+        else {
+            startTimer(time, timerSelector);
         }
     }
 };
