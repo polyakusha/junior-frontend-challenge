@@ -81,7 +81,7 @@ window.onload = function () {
     var timerSelector = document.getElementById('timer');
 
     function setTimer(recievedTime) {
-        if (time % 1 !== 0) {
+        if (recievedTime % 1 !== 0) {
             alert("Only integer number please");
             return;
         }
