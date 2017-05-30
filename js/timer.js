@@ -1,13 +1,21 @@
-const maximumTimer = 24*60*60;
 var actualTimer;
 
+function clearTimers() {
+    var clearDate = document.getElementById("finish-timer");
+    clearInterval(actualTimer);
+    clearDate.innerHTML = "";
+}
+
 function startTimer(time, timerSelector) {
+    const maximumTimer = 24*60*60;
     var timerCount = time*60;
+
     //user timer validation
     if (timerCount <=0 || timerCount > maximumTimer) {
         alert ("Your timer is not valid");
         return;
     }
+
     //current time when timer stop
     var newDate = new Date();
     var newMinutes = newDate.getMinutes() + time;
@@ -60,8 +68,7 @@ function startTimer(time, timerSelector) {
         }
         timerCount--;
         if (timerCount < 0) {
-            clearInterval(actualTimer);
-            document.getElementById("finish-timer").innerHTML = "";
+            clearTimers();
             alert("Timer is finshed");
         }
     }
@@ -73,41 +80,43 @@ window.onload = function () {
     var time;
     var timerSelector = document.getElementById('timer');
 
-    //preset timers
-    var buttons = document.getElementsByClassName("timer-setter");
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].onclick = function () {
-            time = parseInt(this.value);
-            if (timerSelector.innerHTML !== "00:00") {
-                var newTimer = confirm("Another timer is running. Stop it?");
-                if (newTimer) {
-                    clearInterval(actualTimer);
-                    document.getElementById("finish-timer").innerHTML = "";
-                    startTimer(time, timerSelector);
-                }
-            }
-            else {
-                startTimer(time, timerSelector);
-            }
+    function setTimer(recievedTime) {
+        if (time % 1 !== 0) {
+            alert("Only integer number please");
+            return;
         }
-    }
-
-    //custom timer
-    var userTimer = document.getElementById("get-input");
-    userTimer.onclick = function (){
-        time = parseInt(document.getElementById("user-timer").value);
-        document.getElementById("user-timer").value = "";
+        time = parseInt(recievedTime);
+        if (isNaN(time)) {
+            alert("Only numbers please");
+            return;
+        }
         if (timerSelector.innerHTML !== "00:00") {
             var newTimer = confirm("Another timer is running. Stop it?");
             if (newTimer) {
-                clearInterval(actualTimer);
-                document.getElementById("finish-timer").innerHTML = "";
+                clearTimers();
                 startTimer(time, timerSelector);
             }
         }
         else {
             startTimer(time, timerSelector);
         }
+    }
+
+    //preset timers
+    var buttons = document.getElementsByClassName("timer-setter");
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].onclick = function () {
+            var recievedTime = this.value;
+            setTimer(recievedTime);
+        }
+    }
+
+    //custom timer
+    var userTimer = document.getElementById("get-input");
+    userTimer.onclick = function (){
+        var recievedTime = document.getElementById("user-timer").value;
+        setTimer(recievedTime);
+        recievedTime.value = "";
     }
 };
 
