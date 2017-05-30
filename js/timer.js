@@ -1,4 +1,5 @@
 const maximumTimer = 24*60*60;
+var actualTimer;
 
 function startTimer(time, timerSelector) {
     var timerCount = time*60;
@@ -30,10 +31,12 @@ function startTimer(time, timerSelector) {
         newHours = "0" + newHours;
     }
     document.getElementById("finish-timer").innerHTML = "Timer will finish at " + newHours + ":" + newMinutes;
+
+    //main timer mechanism
     var hours;
     var minutes;
     var seconds;
-    var actualTimer = setInterval(function () {
+    function timer () {
         minutes = parseInt(timerCount / 60, 10);
         seconds = parseInt(timerCount % 60, 10);
         if (minutes >= 60) {
@@ -58,31 +61,49 @@ function startTimer(time, timerSelector) {
         timerCount--;
         if (timerCount < 0) {
             clearInterval(actualTimer);
+            document.getElementById("finish-timer").innerHTML = "";
+            alert("Timer is finshed");
         }
-    }, 1000);
+    }
+    timer();
+    actualTimer = setInterval(timer,1000);
 }
 
 window.onload = function () {
     var time;
     var timerSelector = document.getElementById('timer');
+
+    //preset timers
     var buttons = document.getElementsByClassName("timer-setter");
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].onclick = function () {
             time = parseInt(this.value);
             if (timerSelector.innerHTML !== "00:00") {
-                alert("Another timer is running");
+                var newTimer = confirm("Another timer is running. Stop it?");
+                if (newTimer) {
+                    clearInterval(actualTimer);
+                    document.getElementById("finish-timer").innerHTML = "";
+                    startTimer(time, timerSelector);
+                }
             }
             else {
                 startTimer(time, timerSelector);
             }
         }
     }
+
+    //custom timer
     var userTimer = document.getElementById("get-input");
     userTimer.onclick = function (){
         time = parseInt(document.getElementById("user-timer").value);
         document.getElementById("user-timer").value = "";
         if (timerSelector.innerHTML !== "00:00") {
-            alert("Another timer is running");
+            var newTimer = confirm("Another timer is running. Stop it?");
+            if (newTimer) {
+                clearInterval(actualTimer);
+                document.getElementById("finish-timer").innerHTML = "";
+                startTimer(time, timerSelector);
+            }
         }
         else {
             startTimer(time, timerSelector);
