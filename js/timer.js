@@ -1,12 +1,35 @@
 const maximumTimer = 24*60*60;
 
-
 function startTimer(time, timerSelector) {
     var timerCount = time*60;
+    //user timer validation
     if (timerCount <=0 || timerCount > maximumTimer) {
         alert ("Your timer is not valid");
         return;
     }
+    //current time when timer stop
+    var newDate = new Date();
+    var newMinutes = newDate.getMinutes() + time;
+    var newHours;
+    if (newMinutes >= 60) {
+        newHours = newDate.getHours() + parseInt(newMinutes / 60, 10);
+        newMinutes = parseInt(newMinutes % 60, 10);
+        if (newHours >= 24) {
+            newHours = newHours - 24;
+            newMinutes = parseInt(newMinutes % 60, 10);newMinutes = parseInt(newMinutes % 60, 10);
+            newMinutes = newMinutes + " tomorrow";
+        }
+    }
+    else {
+        newHours = newDate.getHours();
+    }
+    if (newMinutes < 10) {
+        newMinutes = "0" + newMinutes;
+    }
+    if (newHours < 10) {
+        newHours = "0" + newHours;
+    }
+    document.getElementById("finish-timer").innerHTML = "Timer will finish at " + newHours + ":" + newMinutes;
     var hours;
     var minutes;
     var seconds;
