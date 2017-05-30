@@ -1,5 +1,5 @@
 function startTimer(time, timerSelector) {
-    var timerCount = time;
+    var timerCount = time*60;
     var hours;
     var minutes;
     var seconds;
@@ -33,8 +33,19 @@ function startTimer(time, timerSelector) {
 }
 
 window.onload = function () {
-    var time = 33333;
+    var time;
     var timerSelector = document.getElementById('timer');
-    startTimer(time, timerSelector);
+    var buttons = document.getElementsByClassName("timer-setter");
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].onclick = function () {
+            time = parseInt(this.value);
+            if (timerSelector.innerHTML !== "00:00") {
+                alert("Another timer is running");
+            }
+            else {
+                startTimer(time, timerSelector);
+            }
+        }
+    }
 };
 
