@@ -2,16 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/styles.css">
     <title>Junior Frontend Developer Challenge - travel audience</title>
     <script src="js/timer.js"></script>
 </head>
 <body>
-    <div id="timer" class="timer">00:00</div>
-    <div id="finish-timer"></div>
-    <button class="timer-setter" value="5">5 minutes</button>
-    <button class="timer-setter" value="15">15 minutes</button>
-    <button class="timer-setter" value="30">30 minutes</button>
-    <input id="user-timer" type="number" title="Your Timer" min="1" max="1440" step="1">
-    <button id="get-input">Start your timer</button>
+    <div class="wrapper">
+        <div class="v-centered">
+
+            <div class="timer" id="timer">00:00</div>
+
+            <div class="status">
+                <div class="progress-bar">
+                    <div class="progress-status">
+                    </div>
+                </div>
+                <div class="ellipse is-progress">
+                </div>
+            </div>
+
+            <div class="time-setters-holder">
+                <div class="timer-setter" value="5">
+                    <div class="round-button">
+                        <a>5 min.</a>
+                    </div>
+                </div>
+                <div class="timer-setter" value="15">
+                    <div class="round-button">
+                        <a>15 min.</a>
+                    </div>
+                </div>
+                <div class="timer-setter" value="30">
+                    <div class="round-button">
+                        <a>30 min.</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input id="user-timer" type="number" title="Your Timer" min="1" max="1440" step="1" placeholder="Set your timer">
+                <button id="get-input" class="input-button">Start</button>
+            </div>
+        </div>
+        <div class="timer-footer">
+            <div id="finish-timer"></div>
+        </div>
+    </div>
 </body>
 </html>

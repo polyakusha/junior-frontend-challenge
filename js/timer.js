@@ -106,7 +106,7 @@ window.onload = function () {
     var buttons = document.getElementsByClassName("timer-setter");
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].onclick = function () {
-            var recievedTime = this.value;
+            var recievedTime = this.getAttribute("value");
             setTimer(recievedTime);
         }
     }
