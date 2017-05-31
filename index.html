@@ -8,7 +8,15 @@
     <script src="js/timer.js"></script>
 </head>
 <body>
-    <div class="wrapper">
+    <div class="wrapper" id="wrapper">
+        <div class="validation" id="validation">
+            <div class="validation-message" id="validation-message"></div>
+        </div>
+        <div class="timer-header" id="timer-header">
+            <div class="alert-message" id="alert-message"></div>
+            <div class="alert-button not-confirmed" id="not-confirm"></div>
+            <div class="alert-button confirmed" id="confirm"></div>
+        </div>
         <div class="v-centered">
 
             <div class="timer" id="timer">00:00</div>
@@ -41,7 +49,7 @@
             </div>
 
             <div class="input-group">
-                <input id="user-timer" type="number" title="Your Timer" min="1" max="1440" step="1" placeholder="Set your timer">
+                <input id="user-timer" type="number" pattern="^[0-9]" max="1440" min="1" step="1" placeholder="Set your timer">
                 <button id="get-input" class="input-button">Start</button>
             </div>
         </div>

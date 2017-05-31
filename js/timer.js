@@ -7,14 +7,7 @@ function clearTimers() {
 }
 
 function startTimer(time, timerSelector) {
-    const maximumTimer = 24*60*60;
     var timerCount = time*60;
-
-    //user timer validation
-    if (timerCount <=0 || timerCount > maximumTimer) {
-        alert ("Your timer is not valid");
-        return;
-    }
 
     //current time when timer stop
     var newDate = new Date();
@@ -69,7 +62,14 @@ function startTimer(time, timerSelector) {
         timerCount--;
         if (timerCount < 0) {
             clearTimers();
-            alert("Timer is finshed");
+            document.getElementById("timer-header").style.display = "block";
+            document.getElementById("alert-message").innerHTML = "Timer stopped. Set new one or quit?";
+            document.getElementById("not-confirm").onclick = function () {
+                document.getElementById("wrapper").style.display = "none";
+            };
+            document.getElementById("confirm").onclick = function () {
+                document.getElementById("timer-header").style.display = "none";
+            };
         }
     }
     timer();
@@ -82,20 +82,25 @@ window.onload = function () {
 
     function setTimer(recievedTime) {
         if (recievedTime % 1 !== 0) {
-            alert("Only integer number please");
+            document.getElementById("finish-timer").innerHTML = "Only integer number please";
             return;
         }
         time = parseInt(recievedTime);
         if (isNaN(time)) {
-            alert("Only numbers please");
+            document.getElementById("finish-timer").innerHTML = "Only numbers please";
             return;
         }
         if (timerSelector.innerHTML !== "00:00") {
-            var newTimer = confirm("Another timer is running. Stop it?");
-            if (newTimer) {
+            document.getElementById("timer-header").style.display = "block";
+            document.getElementById("alert-message").innerHTML = "Another timer is running. Set new one?";
+            document.getElementById("not-confirm").onclick = function () {
+                document.getElementById("timer-header").style.display = "none";
+            };
+            document.getElementById("confirm").onclick = function () {
+                document.getElementById("timer-header").style.display = "none";
                 clearTimers();
                 startTimer(time, timerSelector);
-            }
+            };
         }
         else {
             startTimer(time, timerSelector);
@@ -106,6 +111,7 @@ window.onload = function () {
     var buttons = document.getElementsByClassName("timer-setter");
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].onclick = function () {
+            document.getElementById("validation").style.display = "none";
             var recievedTime = this.getAttribute("value");
             setTimer(recievedTime);
         }
@@ -115,6 +121,13 @@ window.onload = function () {
     var userTimer = document.getElementById("get-input");
     userTimer.onclick = function (){
         var recievedTime = document.getElementById("user-timer").value;
+        //user timer validation
+        if (recievedTime <=0 || recievedTime > 24*60) {
+            document.getElementById("validation").style.display = "block";
+            document.getElementById("validation-message").innerHTML = "Your timer is not valid";
+            return;
+        }
+        document.getElementById("validation").style.display = "none";
         setTimer(recievedTime);
         recievedTime.value = "";
     }
