@@ -31,14 +31,6 @@ function removeClass(element, className) {
         element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 }
 
-function ready(fn) {
-    if (document.readyState != 'loading'){
-        fn();
-    } else {
-        document.addEventListener('DOMContentLoaded', fn);
-    }
-}
-
 //helping functions
 
 function clearTimers() {
@@ -246,6 +238,14 @@ window.onload = function () {
     validationMessageText = document.getElementById("validation-message");
     userTimer = document.getElementById("get-input");
     userTimerInput = document.getElementById("user-timer");
+
+    function ready(fn) {
+        if (document.readyState != 'loading'){
+            fn();
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+    }
 
     function setTimer(recievedTime) {
         time = parseInt(recievedTime);
