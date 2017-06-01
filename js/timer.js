@@ -102,7 +102,6 @@ function exitAlert() {
         setTimeout(function () {
             timerHeader.style.display = "none";
         },2500);
-        close();
     };
     confirmationButton.onclick = function () {
         progressStatus.style.width = 0;
