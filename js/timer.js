@@ -1,4 +1,21 @@
 var actualTimer;
+var timerHeader;
+var confirmationButton;
+var alertMessage;
+var timeSettersHolder;
+var inputGroup;
+var notConfirm;
+var mainTimer;
+var mainWrapper;
+var progressStatus;
+var timerSelector;
+var finishDate;
+var buttons;
+var validationMessage;
+var userTimer;
+var userTimerInput;
+
+//instead of jquery
 
 function addClass(element, className) {
     if (element.classList)
@@ -14,18 +31,22 @@ function removeClass(element, className) {
         element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 }
 
+function ready(fn) {
+    if (document.readyState != 'loading'){
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
+//helping functions
+
 function clearTimers() {
-    var finishDate = document.getElementById("finish-timer");
     clearInterval(actualTimer);
     finishDate.innerHTML = "";
 }
 
-function startTimer(time, timerSelector) {
-    var timerCount = time*60;
-    var progressStatus = document.getElementById("progress-status");
-    var onePercent = 100/timerCount;
-    var myPercents = 0;
-    //current time when timer stop
+function whenTimerStop(time) {
     var newDate = new Date();
     var newMinutes = newDate.getMinutes() + time;
     var newHours;
@@ -47,9 +68,104 @@ function startTimer(time, timerSelector) {
     if (newHours < 10) {
         newHours = "0" + newHours;
     }
-    var finishDate = document.getElementById("finish-timer");
     finishDate.innerHTML = "Timer will finish at " + newHours + ":" + newMinutes;
+}
 
+function exitAlert() {
+    timerHeader.style.display = "block";
+    removeClass(timerHeader,"loading");
+    removeClass(confirmationButton,"confirmed");
+    addClass(confirmationButton,"new-timer");
+    alertMessage.innerHTML = "Timer stopped. Set new one or quit?";
+    setTimeout(function () {
+        addClass(timeSettersHolder, "loading");
+    },500);
+    setTimeout(function () {
+        addClass(inputGroup, "loading");
+    },500);
+    setTimeout(function () {
+        timeSettersHolder.style.display = "none";
+    },800);
+    setTimeout(function () {
+        inputGroup.style.display = "none";
+    },800);
+    notConfirm.onclick = function () {
+        progressStatus.style.width = 0;
+        setTimeout(function () {
+            addClass(mainTimer, "loading");
+        },1000);
+        setTimeout(function () {
+            addClass(mainWrapper, "loading");
+        },1500);
+    };
+    confirmationButton.onclick = function () {
+        progressStatus.style.width = 0;
+        timeSettersHolder.style.display = "block";
+        inputGroup.style.display = "block";
+        setTimeout(function () {
+            removeClass(timeSettersHolder, "loading");
+        },500);
+        setTimeout(function () {
+            removeClass(inputGroup, "loading");
+        },500);
+        removeClass(mainWrapper, "loading");
+        timerHeader.style.display = "none";
+        removeClass(confirmationButton, "new-timer");
+        addClass(confirmationButton, "confirmed");
+    };
+}
+
+function anotherTimerIsRunning(time) {
+    if (timerSelector.innerHTML !== "00:00") {
+        timerHeader.style.display = "block";
+        setTimeout(function () {
+            removeClass(timerHeader, "loading");
+        },500);
+        alertMessage.innerHTML = "Another timer is running. Set new one?";
+        notConfirm.onclick = function () {
+            setTimeout(function () {
+                addClass(timerHeader, "loading");
+            },500);
+            setTimeout(function () {
+                timerHeader.style.display = "none";
+            },800);
+        };
+        confirmationButton.onclick = function () {
+            setTimeout(function () {
+                addClass(timerHeader, "loading");
+            },500);
+            setTimeout(function () {
+                timerHeader.style.display = "none";
+            },800);
+            clearTimers();
+            startTimer(time, timerSelector);
+        };
+    }
+    else {
+        startTimer(time, timerSelector);
+    }
+}
+
+function clearValidatorMessage() {
+    setTimeout(function () {
+        addClass(validationMessage, "loading");
+    },500);
+    setTimeout(function () {
+        validationMessage.style.display = "none";
+    },800);
+}
+
+
+//main functions
+
+function startTimer(time, timerSelector) {
+    var timerCount = time*60;
+
+    //animation
+    var onePercent = 100/timerCount;
+    var myPercents = 0;
+
+    whenTimerStop(time);
     //main timer mechanism
     var hours;
     var minutes;
@@ -76,42 +192,15 @@ function startTimer(time, timerSelector) {
         else {
             timerSelector.innerHTML = minutes + ":" + seconds;
         }
-        timerCount--;
 
-        //a bit of animation
+        timerCount--;
+        //progress animation
         progressStatus.style.width = (myPercents+"%");
         myPercents = myPercents += onePercent;
 
         if (timerCount < 0) {
-            //console.log("I'm here");
             clearTimers();
-            document.getElementById("timer-header").style.display = "block";
-            removeClass(document.getElementById("timer-header"),"loading");
-            removeClass(document.getElementById("confirm"),"confirmed");
-            addClass(document.getElementById("confirm"),"new-timer");
-            document.getElementById("alert-message").innerHTML = "Timer stopped. Set new one or quit?";
-            document.getElementById("not-confirm").onclick = function () {
-                progressStatus.style.width = 0;
-                setTimeout(function () {
-                    addClass(document.getElementById("time-setters-holder"), "loading");
-                },500);
-                setTimeout(function () {
-                    addClass(document.getElementById("input-group"), "loading");
-                },500);
-                setTimeout(function () {
-                    addClass(document.getElementById("timer"), "loading");
-                },1000);
-                setTimeout(function () {
-                    addClass(document.getElementById("wrapper"), "loading");
-                },1500);
-            };
-            document.getElementById("confirm").onclick = function () {
-                progressStatus.style.width = 0;
-                removeClass(document.getElementById("wrapper"), "loading");
-                document.getElementById("timer-header").style.display = "none";
-                removeClass(document.getElementById("confirm"), "new-timer");
-                addClass(document.getElementById("confirm"), "confirmed");
-            };
+            exitAlert();
         }
     }
     timer();
@@ -120,95 +209,94 @@ function startTimer(time, timerSelector) {
 
 window.onload = function () {
     var time;
-    var timerSelector = document.getElementById('timer');
+    timerSelector = document.getElementById('timer');
+    timerHeader = document.getElementById("timer-header");
+    confirmationButton = document.getElementById("confirm");
+    alertMessage = document.getElementById("alert-message");
+    timeSettersHolder = document.getElementById("time-setters-holder");
+    inputGroup = document.getElementById("input-group");
+    notConfirm = document.getElementById("not-confirm");
+    mainTimer = document.getElementById("timer");
+    mainWrapper = document.getElementById("wrapper");
+    progressStatus = document.getElementById("progress-status");
+    finishDate = document.getElementById("finish-timer");
+    buttons = document.getElementsByClassName("timer-setter");
+    validationMessage = document.getElementById("validation");
+    validationMessageText = document.getElementById("validation-message");
+    userTimer = document.getElementById("get-input");
+    userTimerInput = document.getElementById("user-timer");
 
     function setTimer(recievedTime) {
-        if (recievedTime % 1 !== 0) {
-            document.getElementById("finish-timer").innerHTML = "Only integer number please";
-            return;
-        }
         time = parseInt(recievedTime);
-        if (isNaN(time)) {
-            document.getElementById("finish-timer").innerHTML = "Only numbers please";
-            return;
-        }
-        if (timerSelector.innerHTML !== "00:00") {
-            var alertWithConfirm = document.getElementById("timer-header");
-            alertWithConfirm.style.display = "block";
-            setTimeout(function () {
-                removeClass(alertWithConfirm, "loading");
-            },200);
-            document.getElementById("alert-message").innerHTML = "Another timer is running. Set new one?";
-            document.getElementById("not-confirm").onclick = function () {
-                setTimeout(function () {
-                    addClass(alertWithConfirm, "loading");
-                },400);
-                alertWithConfirm.style.display = "none";
-            };
-            document.getElementById("confirm").onclick = function () {
-                setTimeout(function () {
-                    addClass(document.getElementById("timer-header"), "loading");
-                },400);
-                document.getElementById("timer-header").style.display = "none";
-                clearTimers();
-                startTimer(time, timerSelector);
-            };
-        }
-        else {
-            startTimer(time, timerSelector);
-        }
+        anotherTimerIsRunning(time);
     }
 
-    //preset timers
-    var buttons = document.getElementsByClassName("timer-setter");
-    for (var i = 0; i < buttons.length; i++) {
-        buttons[i].onclick = function () {
-            addClass(document.getElementById("validation"), "loading");
-            document.getElementById("validation").style.display = "none";
-            var recievedTime = this.getAttribute("value");
-            setTimer(recievedTime);
+    function getPresetTimers() {
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].onclick = function () {
+                clearValidatorMessage();
+                var recievedTime = this.getAttribute("value");
+                setTimer(recievedTime);
+            }
         }
     }
 
     //custom timer
-    var userTimer = document.getElementById("get-input");
-    userTimer.onclick = function (){
-        var recievedTime = document.getElementById("user-timer").value;
-        //user timer validation
-        if (recievedTime <=0 || recievedTime > 24*60) {
-            document.getElementById("validation").style.display = "block";
-            removeClass(document.getElementById("validation"), "loading");
-            document.getElementById("validation-message").innerHTML = "Timer will work 24 hours maximum. It's 1440 minutes.";
-            return;
+    function getUserTimer () {
+        userTimer.onclick = function (){
+            var recievedTime = userTimerInput.value;
+            var time = parseInt(recievedTime);
+            if (isNaN(time)) {
+                validationMessage.style.display = "block";
+                setTimeout(function () {
+                    removeClass(validationMessage, "loading");
+                },500);
+                validationMessageText.innerHTML = "Only numbers please";
+                return;
+            }
+            else if (recievedTime % 1 !== 0) {
+                validationMessage.style.display = "block";
+                setTimeout(function () {
+                    removeClass(validationMessage, "loading");
+                },500);
+                validationMessageText.innerHTML = "Only integer number please";
+                return;
+            }
+            else if (recievedTime <=0 || recievedTime > 24*60) {
+                validationMessage.style.display = "block";
+                setTimeout(function () {
+                    removeClass(validationMessage, "loading");
+                },500);
+                validationMessageText.innerHTML = "Timer will work 24 hours maximum. It's 1440 minutes.";
+                return;
+            }
+            setTimeout(function () {
+                addClass(validationMessage, "loading");
+            },500);
+            setTimeout(function () {
+                validationMessage.style.display = "none";
+            },800);
+            setTimer(recievedTime);
+            recievedTime.value = "";
         }
-        addClass(document.getElementById("validation"), "loading");
-        document.getElementById("validation").style.display = "none";
-        setTimer(recievedTime);
-        recievedTime.value = "";
     }
+    getPresetTimers();
+    getUserTimer();
 };
-
-function ready(fn) {
-    if (document.readyState != 'loading'){
-        fn();
-    } else {
-        document.addEventListener('DOMContentLoaded', fn);
-    }
-}
 
 function whenItsReady () {
     //animations
     setTimeout(function () {
-        removeClass(document.getElementById("wrapper"), "loading");
+        removeClass(mainWrapper, "loading");
     },500);
     setTimeout(function () {
-        removeClass(document.getElementById("timer"), "loading");
+        removeClass(mainTimer, "loading");
     },1000);
     setTimeout(function () {
-        removeClass(document.getElementById("time-setters-holder"), "loading");
+        removeClass(timeSettersHolder, "loading");
     },1500);
     setTimeout(function () {
-        removeClass(document.getElementById("input-group"), "loading");
+        removeClass(inputGroup, "loading");
     },1500);
 }
 
