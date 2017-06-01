@@ -39,23 +39,23 @@
             <div class="time-setters-holder loading" id="time-setters-holder">
                 <div class="timer-setter" value="5">
                     <div class="round-button">
-                        <a>5 min.</a>
+                        <a>5</a>
                     </div>
                 </div>
                 <div class="timer-setter" value="15">
                     <div class="round-button">
-                        <a>15 min.</a>
+                        <a>15</a>
                     </div>
                 </div>
                 <div class="timer-setter" value="30">
                     <div class="round-button">
-                        <a>30 min.</a>
+                        <a>30</a>
                     </div>
                 </div>
             </div>
 
             <div class="input-group loading" id="input-group">
-                <input id="user-timer" type="number" pattern="^[0-9]" max="1440" min="1" step="1" placeholder="Set your timer">
+                <input id="user-timer" type="number" pattern="\d+" maxlength="4" max="1440" min="1" step="1" placeholder="Set your timer">
                 <button id="get-input" class="input-button">Start</button>
             </div>
         </div>
