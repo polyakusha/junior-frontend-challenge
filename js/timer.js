@@ -18,21 +18,25 @@ var userTimerInput;
 //instead of jquery
 
 function addClass(element, className) {
-    if (element.classList)
+    if (element.classList) {
         element.classList.add(className);
-    else
+    }
+    else {
         element.className += ' ' + className;
+    }
 }
 
 function removeClass(element, className) {
-    if (element.classList)
+    if (element.classList) {
         element.classList.remove(className);
-    else
+    }
+    else {
         element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+    }
 }
 
 function ready(fn) {
-    if (document.readyState != 'loading'){
+    if (document.readyState != 'loading') {
         fn();
     } else {
         document.addEventListener('DOMContentLoaded', fn);
