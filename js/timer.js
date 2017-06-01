@@ -160,7 +160,7 @@ function clearValidatorMessage() {
     },800);
 }
 
-function whenItsReady () {
+var whenItsReady = function () {
     //animations
     setTimeout(function () {
         removeClass(mainWrapper, "loading");
@@ -303,7 +303,7 @@ window.onload = function () {
     }
     getPresetTimers();
     getUserTimer();
-    ready(whenItsReady());
+    ready(whenItsReady);
 };
 
 
