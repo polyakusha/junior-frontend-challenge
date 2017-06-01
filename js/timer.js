@@ -157,6 +157,22 @@ function clearValidatorMessage() {
     },800);
 }
 
+function whenItsReady () {
+    //animations
+    setTimeout(function () {
+        removeClass(mainWrapper, "loading");
+    },500);
+    setTimeout(function () {
+        removeClass(mainTimer, "loading");
+    },1000);
+    setTimeout(function () {
+        removeClass(timeSettersHolder, "loading");
+    },1500);
+    setTimeout(function () {
+        removeClass(inputGroup, "loading");
+    },1500);
+}
+
 
 //main functions
 
@@ -284,25 +300,10 @@ window.onload = function () {
     }
     getPresetTimers();
     getUserTimer();
+    ready(whenItsReady());
 };
 
-function whenItsReady () {
-    //animations
-    setTimeout(function () {
-        removeClass(mainWrapper, "loading");
-    },500);
-    setTimeout(function () {
-        removeClass(mainTimer, "loading");
-    },1000);
-    setTimeout(function () {
-        removeClass(timeSettersHolder, "loading");
-    },1500);
-    setTimeout(function () {
-        removeClass(inputGroup, "loading");
-    },1500);
-}
 
-ready(whenItsReady());
 
 
 
