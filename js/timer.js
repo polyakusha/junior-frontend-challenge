@@ -100,7 +100,7 @@ function exitAlert() {
             addClass(mainWrapper, "loading");
         },1500);
         setTimeout(function () {
-            inputGroup.style.display = "none";
+            timerHeader.style.display = "none";
         },1700);
     };
     confirmationButton.onclick = function () {
