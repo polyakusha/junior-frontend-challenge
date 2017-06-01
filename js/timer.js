@@ -1,14 +1,30 @@
 var actualTimer;
 
+function addClass(element, className) {
+    if (element.classList)
+        element.classList.add(className);
+    else
+        element.className += ' ' + className;
+}
+
+function removeClass(element, className) {
+    if (element.classList)
+        element.classList.remove(className);
+    else
+        element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+}
+
 function clearTimers() {
-    var clearDate = document.getElementById("finish-timer");
+    var finishDate = document.getElementById("finish-timer");
     clearInterval(actualTimer);
-    clearDate.innerHTML = "";
+    finishDate.innerHTML = "";
 }
 
 function startTimer(time, timerSelector) {
     var timerCount = time*60;
-
+    var progressStatus = document.getElementById("progress-status");
+    var onePercent = 100/timerCount;
+    var myPercents = 0;
     //current time when timer stop
     var newDate = new Date();
     var newMinutes = newDate.getMinutes() + time;
@@ -31,7 +47,8 @@ function startTimer(time, timerSelector) {
     if (newHours < 10) {
         newHours = "0" + newHours;
     }
-    document.getElementById("finish-timer").innerHTML = "Timer will finish at " + newHours + ":" + newMinutes;
+    var finishDate = document.getElementById("finish-timer");
+    finishDate.innerHTML = "Timer will finish at " + newHours + ":" + newMinutes;
 
     //main timer mechanism
     var hours;
@@ -60,15 +77,36 @@ function startTimer(time, timerSelector) {
             timerSelector.innerHTML = minutes + ":" + seconds;
         }
         timerCount--;
+
+        //a bit of animation
+        progressStatus.style.width = (myPercents+"%");
+        myPercents = myPercents += onePercent;
+
         if (timerCount < 0) {
+            console.log("I'm here")
             clearTimers();
-            document.getElementById("timer-header").style.display = "block";
+            var alertWithConfirm = document.getElementById("timer-header");
+            alertWithConfirm.style.display = "block";
             document.getElementById("alert-message").innerHTML = "Timer stopped. Set new one or quit?";
             document.getElementById("not-confirm").onclick = function () {
-                document.getElementById("wrapper").style.display = "none";
+                progressStatus.style.width = 0;
+                setTimeout(function () {
+                    addClass(document.getElementById("time-setters-holder"), "loading");
+                },500);
+                setTimeout(function () {
+                    addClass(document.getElementById("input-group"), "loading");
+                },500);
+                setTimeout(function () {
+                    addClass(document.getElementById("timer"), "loading");
+                },1000);
+                setTimeout(function () {
+                    addClass(document.getElementById("wrapper"), "loading");
+                },1500);
             };
             document.getElementById("confirm").onclick = function () {
-                document.getElementById("timer-header").style.display = "none";
+                progressStatus.style.width = 0;
+                removeClass(document.getElementById("wrapper"), "loading");
+                alertWithConfirm.style.display = "none";
             };
         }
     }
@@ -91,12 +129,22 @@ window.onload = function () {
             return;
         }
         if (timerSelector.innerHTML !== "00:00") {
-            document.getElementById("timer-header").style.display = "block";
+            var alertWithConfirm = document.getElementById("timer-header");
+            alertWithConfirm.style.display = "block";
+            setTimeout(function () {
+                removeClass(alertWithConfirm, "loading");
+            },200);
             document.getElementById("alert-message").innerHTML = "Another timer is running. Set new one?";
             document.getElementById("not-confirm").onclick = function () {
-                document.getElementById("timer-header").style.display = "none";
+                setTimeout(function () {
+                    addClass(alertWithConfirm, "loading");
+                },400);
+                alertWithConfirm.style.display = "none";
             };
             document.getElementById("confirm").onclick = function () {
+                setTimeout(function () {
+                    addClass(document.getElementById("timer-header"), "loading");
+                },400);
                 document.getElementById("timer-header").style.display = "none";
                 clearTimers();
                 startTimer(time, timerSelector);
@@ -111,6 +159,7 @@ window.onload = function () {
     var buttons = document.getElementsByClassName("timer-setter");
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].onclick = function () {
+            addClass(document.getElementById("validation"), "loading");
             document.getElementById("validation").style.display = "none";
             var recievedTime = this.getAttribute("value");
             setTimer(recievedTime);
@@ -124,12 +173,42 @@ window.onload = function () {
         //user timer validation
         if (recievedTime <=0 || recievedTime > 24*60) {
             document.getElementById("validation").style.display = "block";
-            document.getElementById("validation-message").innerHTML = "Your timer is not valid";
+            removeClass(document.getElementById("validation"), "loading");
+            document.getElementById("validation-message").innerHTML = "Timer will work 24 hours maximum. It's 1440 minutes.";
             return;
         }
+        addClass(document.getElementById("validation"), "loading");
         document.getElementById("validation").style.display = "none";
         setTimer(recievedTime);
         recievedTime.value = "";
     }
 };
+
+function ready(fn) {
+    if (document.readyState != 'loading'){
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
+function whenItsReady () {
+    //animations
+    setTimeout(function () {
+        removeClass(document.getElementById("wrapper"), "loading");
+    },500);
+    setTimeout(function () {
+        removeClass(document.getElementById("timer"), "loading");
+    },1000);
+    setTimeout(function () {
+        removeClass(document.getElementById("time-setters-holder"), "loading");
+    },1500);
+    setTimeout(function () {
+        removeClass(document.getElementById("input-group"), "loading");
+    },1500);
+}
+
+ready(whenItsReady());
+
+
 
