@@ -270,4 +270,7 @@ body {
   .timer {
     font-size: 11vw !important;
   }
+  .input-button {
+    height: 28px;
+  }
 }
