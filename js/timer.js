@@ -101,7 +101,7 @@ function exitAlert() {
         },1500);
         setTimeout(function () {
             timerHeader.style.display = "none";
-        },1700);
+        },2500);
     };
     confirmationButton.onclick = function () {
         progressStatus.style.width = 0;
