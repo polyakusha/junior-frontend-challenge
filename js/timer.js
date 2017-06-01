@@ -33,7 +33,7 @@ function removeClass(element, className) {
 
 function ready(fn) {
     if (document.readyState != 'loading'){
-        fn;
+        fn();
     } else {
         document.addEventListener('DOMContentLoaded', fn);
     }
