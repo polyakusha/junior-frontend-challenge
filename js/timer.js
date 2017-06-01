@@ -39,6 +39,18 @@ function ready(fn) {
     }
 }
 
+//animations
+
+function hideElement(element) {
+    setTimeout(function () {
+        addClass(element, "loading");
+    },500);
+    setTimeout(function () {
+        element.style.display = "none";
+    },800);
+};
+
+
 //helping functions
 
 function clearTimers() {
@@ -56,6 +68,9 @@ function whenTimerStop(time) {
         if (newHours >= 24) {
             newHours = newHours - 24;
             newMinutes = parseInt(newMinutes % 60, 10);newMinutes = parseInt(newMinutes % 60, 10);
+            if (newMinutes < 10) {
+                newMinutes = "0" + newMinutes;
+            }
             newMinutes = newMinutes + " tomorrow";
         }
     }
@@ -128,20 +143,10 @@ function anotherTimerIsRunning(time) {
         },500);
         alertMessage.innerHTML = "Another timer is running. Set a new one?";
         notConfirm.onclick = function () {
-            setTimeout(function () {
-                addClass(timerHeader, "loading");
-            },500);
-            setTimeout(function () {
-                timerHeader.style.display = "none";
-            },800);
+            hideElement(timerHeader);
         };
         confirmationButton.onclick = function () {
-            setTimeout(function () {
-                addClass(timerHeader, "loading");
-            },500);
-            setTimeout(function () {
-                timerHeader.style.display = "none";
-            },800);
+            hideElement(timerHeader);
             clearTimers();
             startTimer(time, timerSelector);
         };
@@ -152,12 +157,7 @@ function anotherTimerIsRunning(time) {
 }
 
 function clearValidatorMessage() {
-    setTimeout(function () {
-        addClass(validationMessage, "loading");
-    },500);
-    setTimeout(function () {
-        validationMessage.style.display = "none";
-    },800);
+    hideElement(validationMessage);
 }
 
 var whenItsReady = function () {
@@ -174,7 +174,7 @@ var whenItsReady = function () {
     setTimeout(function () {
         removeClass(inputGroup, "loading");
     },1500);
-}
+};
 
 
 //main functions
@@ -291,12 +291,8 @@ window.onload = function () {
                 validationMessageText.innerHTML = "1440 minutes is one day. That is the maximum.";
                 return;
             }
-            setTimeout(function () {
-                addClass(validationMessage, "loading");
-            },500);
-            setTimeout(function () {
-                validationMessage.style.display = "none";
-            },800);
+
+            clearValidatorMessage();
             setTimer(recievedTime);
             recievedTime.value = "";
         }
