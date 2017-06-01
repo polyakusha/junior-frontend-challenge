@@ -274,4 +274,7 @@ body {
   .timer {
     font-size: 11vw !important;
   }
+  .timer-footer {
+    bottom: 10px !important;
+  }
 }
