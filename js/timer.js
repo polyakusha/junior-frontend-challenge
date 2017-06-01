@@ -99,6 +99,9 @@ function exitAlert() {
         setTimeout(function () {
             addClass(mainWrapper, "loading");
         },1500);
+        setTimeout(function () {
+            inputGroup.style.display = "none";
+        },1700);
     };
     confirmationButton.onclick = function () {
         progressStatus.style.width = 0;
@@ -300,7 +303,9 @@ window.onload = function () {
     }
     getPresetTimers();
     getUserTimer();
-    ready(whenItsReady());
+    setTimeout(function () {
+        ready(whenItsReady());
+    },1000);
 };
 
 
