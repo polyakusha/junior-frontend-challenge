@@ -83,10 +83,12 @@ function startTimer(time, timerSelector) {
         myPercents = myPercents += onePercent;
 
         if (timerCount < 0) {
-            console.log("I'm here")
+            //console.log("I'm here");
             clearTimers();
-            var alertWithConfirm = document.getElementById("timer-header");
-            alertWithConfirm.style.display = "block";
+            document.getElementById("timer-header").style.display = "block";
+            removeClass(document.getElementById("timer-header"),"loading");
+            removeClass(document.getElementById("confirm"),"confirmed");
+            addClass(document.getElementById("confirm"),"new-timer");
             document.getElementById("alert-message").innerHTML = "Timer stopped. Set new one or quit?";
             document.getElementById("not-confirm").onclick = function () {
                 progressStatus.style.width = 0;
@@ -106,7 +108,9 @@ function startTimer(time, timerSelector) {
             document.getElementById("confirm").onclick = function () {
                 progressStatus.style.width = 0;
                 removeClass(document.getElementById("wrapper"), "loading");
-                alertWithConfirm.style.display = "none";
+                document.getElementById("timer-header").style.display = "none";
+                removeClass(document.getElementById("confirm"), "new-timer");
+                addClass(document.getElementById("confirm"), "confirmed");
             };
         }
     }
