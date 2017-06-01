@@ -251,19 +251,6 @@ body {
   background-color: #e74c3c;
 }
 @media (max-width: 768px) {
-  .wrapper {
-    margin: 0px;
-    height: 100vh !important;
-    width: 100vw !important;
-  }
-  .timer-footer,
-  .timer-header {
-    margin: 0px !important;
-    width: 100vw !important;
-  }
-  .timer-header {
-    top: 0px !important;
-  }
   .timer-setter {
     width: 48px;
   }
