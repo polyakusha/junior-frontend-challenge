@@ -15,13 +15,6 @@ input,
 button {
   outline: none;
 }
-.linear {
-  -webkit-transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -ms-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  transition: all 0.3s linear;
-}
 .eased {
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -248,4 +241,29 @@ body {
 }
 .input-group .input-button:after {
   background-color: #16a085;
+}
+@media (max-height: 475px) {
+  .timer-setter {
+    width: 48px;
+  }
+  .status {
+    margin-bottom: 0.7em;
+  }
+  .input-group {
+    margin-top: 0.7em;
+  }
+  .alert-message,
+  .validation,
+  .timer-footer {
+    height: 1em;
+    font-size: 0.8em;
+  }
+  .alert-button {
+    width: 2.1em !important;
+    height: 1.4em !important;
+    padding-top: 0.7em !important;
+  }
+  .timer {
+    font-size: 11vw !important;
+  }
 }

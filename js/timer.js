@@ -73,10 +73,11 @@ function whenTimerStop(time) {
 
 function exitAlert() {
     timerHeader.style.display = "block";
-    removeClass(timerHeader,"loading");
     removeClass(confirmationButton,"confirmed");
     addClass(confirmationButton,"new-timer");
-    alertMessage.innerHTML = "Timer stopped. Set new one or quit?";
+    setTimeout(function () {
+        removeClass(timerHeader,"loading");
+    },500);
     setTimeout(function () {
         addClass(timeSettersHolder, "loading");
     },500);
@@ -85,10 +86,11 @@ function exitAlert() {
     },500);
     setTimeout(function () {
         timeSettersHolder.style.display = "none";
-    },800);
+    },1200);
     setTimeout(function () {
         inputGroup.style.display = "none";
-    },800);
+    },1200);
+    alertMessage.innerHTML = "Timer stopped. Set new one or quit?";
     notConfirm.onclick = function () {
         progressStatus.style.width = 0;
         setTimeout(function () {
@@ -267,7 +269,7 @@ window.onload = function () {
                 setTimeout(function () {
                     removeClass(validationMessage, "loading");
                 },500);
-                validationMessageText.innerHTML = "Timer will work 24 hours maximum. It's 1440 minutes.";
+                validationMessageText.innerHTML = "1440 minutes is one day. It's is maximum.";
                 return;
             }
             setTimeout(function () {

@@ -26,7 +26,6 @@ textarea, input, button {
 
 @wrapper-margin: 60px;
 
-.linear { .transition(all, .3s, linear) }
 .eased { .transition(all,.3s, ease-in-out) }
 .eased-slow { .transition(all,.7s, ease-in-out) }
 .linear-progress { .transition(all,1s, linear) }
@@ -220,4 +219,27 @@ html,body {
   }
 }
 
+@media (max-height: 475px) {
+  .timer-setter {
+    width: 48px;
+  }
+  .status {
+    margin-bottom: 0.7em;
+  }
+  .input-group {
+    margin-top: 0.7em;
+  }
+  .alert-message, .validation, .timer-footer {
+    height: 1em;
+    font-size: 0.8em;
+  }
+  .alert-button {
+    width: 2.1em !important;
+    height: 1.4em !important;
+    padding-top: 0.7em !important;
+  }
+  .timer {
+    font-size: 11vw !important;
+  }
+}
 
