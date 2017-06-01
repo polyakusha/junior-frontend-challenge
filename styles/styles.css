@@ -215,6 +215,8 @@ body {
   margin-top: 2em;
 }
 .input-group input {
+  -webkit-appearance: none;
+  border-radius: 0;
   border: none;
   background: #ecf0f1 !important;
   outline: none;
