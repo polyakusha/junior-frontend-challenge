@@ -90,7 +90,7 @@ function exitAlert() {
     setTimeout(function () {
         inputGroup.style.display = "none";
     },1200);
-    alertMessage.innerHTML = "Timer stopped. Set new one or quit?";
+    alertMessage.innerHTML = "Timer stopped. Set a new one or quit?";
     notConfirm.onclick = function () {
         progressStatus.style.width = 0;
         setTimeout(function () {
@@ -126,7 +126,7 @@ function anotherTimerIsRunning(time) {
         setTimeout(function () {
             removeClass(timerHeader, "loading");
         },500);
-        alertMessage.innerHTML = "Another timer is running. Set new one?";
+        alertMessage.innerHTML = "Another timer is running. Set a new one?";
         notConfirm.onclick = function () {
             setTimeout(function () {
                 addClass(timerHeader, "loading");
@@ -288,7 +288,7 @@ window.onload = function () {
                 setTimeout(function () {
                     removeClass(validationMessage, "loading");
                 },500);
-                validationMessageText.innerHTML = "1440 minutes is one day. It's is maximum.";
+                validationMessageText.innerHTML = "1440 minutes is one day. That is the maximum.";
                 return;
             }
             setTimeout(function () {
