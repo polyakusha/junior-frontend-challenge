@@ -217,6 +217,7 @@ body {
 .input-group input {
   -webkit-appearance: none;
   border-radius: 0;
+  -webkit-border-radius: 0px;
   border: none;
   background: #ecf0f1 !important;
   outline: none;
