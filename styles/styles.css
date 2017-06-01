@@ -229,6 +229,8 @@ body {
   font-size: 14px;
 }
 .input-group .input-button {
+  -webkit-appearance: none;
+  border-radius: 0;
   box-sizing: border-box;
   padding: 1px;
   margin-left: -3px;
