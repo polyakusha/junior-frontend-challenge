@@ -164,6 +164,17 @@ function clearValidatorMessage() {
     hideElement(validationMessage);
 }
 
+function writeValidatorMessage(message) {
+    validationMessage.style.display = "block";
+    setTimeout(function () {
+        removeClass(validationMessage, "loading");
+    }, 500);
+    validationMessageText.innerHTML = message;
+    setTimeout(function () {
+        hideElement(validationMessage);
+    }, 3000);
+}
+
 var whenItsReady = function () {
     //animations
     setTimeout(function () {
@@ -274,27 +285,15 @@ var afterLoading = function () {
             var recievedTime = userTimerInput.value;
             var time = parseInt(recievedTime);
             if (isNaN(time)) {
-                validationMessage.style.display = "block";
-                setTimeout(function () {
-                    removeClass(validationMessage, "loading");
-                }, 500);
-                validationMessageText.innerHTML = "Only numbers please";
+                writeValidatorMessage("Only numbers please");
                 return;
             }
             else if (recievedTime % 1 !== 0) {
-                validationMessage.style.display = "block";
-                setTimeout(function () {
-                    removeClass(validationMessage, "loading");
-                }, 500);
-                validationMessageText.innerHTML = "Only integer number please";
+                writeValidatorMessage("Only integer number please");
                 return;
             }
             else if (recievedTime <= 0 || recievedTime > 24 * 60) {
-                validationMessage.style.display = "block";
-                setTimeout(function () {
-                    removeClass(validationMessage, "loading");
-                }, 500);
-                validationMessageText.innerHTML = "1440 minutes is one day. That is the maximum.";
+                writeValidatorMessage("1440 minutes is one day. That is the maximum");
                 return;
             }
 
