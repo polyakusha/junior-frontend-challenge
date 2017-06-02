@@ -118,6 +118,9 @@ function exitAlert() {
         setTimeout(function () {
             timerHeader.style.display = "none";
         }, 2500);
+        setTimeout(function () {
+            validationMessage.style.display = "none";
+        }, 2500);
     };
     confirmationButton.onclick = function () {
         progressStatus.style.width = 0;
