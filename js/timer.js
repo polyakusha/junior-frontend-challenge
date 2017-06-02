@@ -43,18 +43,6 @@ function ready(fn) {
     }
 }
 
-//animations
-
-function hideElement(element) {
-    setTimeout(function () {
-        addClass(element, "loading");
-    },500);
-    setTimeout(function () {
-        element.style.display = "none";
-    },800);
-};
-
-
 //helping functions
 
 function clearTimers() {
@@ -62,6 +50,14 @@ function clearTimers() {
     finishDate.innerHTML = "";
 }
 
+function hideElement(element) {
+    setTimeout(function () {
+        addClass(element, "loading");
+    }, 500);
+    setTimeout(function () {
+        element.style.display = "none";
+    }, 800);
+}
 function whenTimerStop(time) {
     var newDate = new Date();
     var newMinutes = newDate.getMinutes() + time;
@@ -71,7 +67,8 @@ function whenTimerStop(time) {
         newMinutes = parseInt(newMinutes % 60, 10);
         if (newHours >= 24) {
             newHours = newHours - 24;
-            newMinutes = parseInt(newMinutes % 60, 10);newMinutes = parseInt(newMinutes % 60, 10);
+            newMinutes = parseInt(newMinutes % 60, 10);
+            newMinutes = parseInt(newMinutes % 60, 10);
             if (newMinutes < 10) {
                 newMinutes = "0" + newMinutes;
             }
@@ -92,35 +89,35 @@ function whenTimerStop(time) {
 
 function exitAlert() {
     timerHeader.style.display = "block";
-    removeClass(confirmationButton,"confirmed");
-    addClass(confirmationButton,"new-timer");
+    removeClass(confirmationButton, "confirmed");
+    addClass(confirmationButton, "new-timer");
     setTimeout(function () {
-        removeClass(timerHeader,"loading");
-    },500);
+        removeClass(timerHeader, "loading");
+    }, 500);
     setTimeout(function () {
         addClass(timeSettersHolder, "loading");
-    },500);
+    }, 500);
     setTimeout(function () {
         addClass(inputGroup, "loading");
-    },500);
+    }, 500);
     setTimeout(function () {
         timeSettersHolder.style.display = "none";
-    },1200);
+    }, 1200);
     setTimeout(function () {
         inputGroup.style.display = "none";
-    },1200);
+    }, 1200);
     alertMessage.innerHTML = "Timer stopped. Set a new one or quit?";
     notConfirm.onclick = function () {
         progressStatus.style.width = 0;
         setTimeout(function () {
             addClass(mainTimer, "loading");
-        },1000);
+        }, 1000);
         setTimeout(function () {
             addClass(mainWrapper, "loading");
-        },1500);
+        }, 1500);
         setTimeout(function () {
             timerHeader.style.display = "none";
-        },2500);
+        }, 2500);
     };
     confirmationButton.onclick = function () {
         progressStatus.style.width = 0;
@@ -128,10 +125,10 @@ function exitAlert() {
         inputGroup.style.display = "block";
         setTimeout(function () {
             removeClass(timeSettersHolder, "loading");
-        },500);
+        }, 500);
         setTimeout(function () {
             removeClass(inputGroup, "loading");
-        },500);
+        }, 500);
         removeClass(mainWrapper, "loading");
         timerHeader.style.display = "none";
         removeClass(confirmationButton, "new-timer");
@@ -144,7 +141,7 @@ function anotherTimerIsRunning(time) {
         timerHeader.style.display = "block";
         setTimeout(function () {
             removeClass(timerHeader, "loading");
-        },500);
+        }, 500);
         alertMessage.innerHTML = "Another timer is running. Set a new one?";
         notConfirm.onclick = function () {
             hideElement(timerHeader);
@@ -168,26 +165,26 @@ var whenItsReady = function () {
     //animations
     setTimeout(function () {
         removeClass(mainWrapper, "loading");
-    },500);
+    }, 500);
     setTimeout(function () {
         removeClass(mainTimer, "loading");
-    },1000);
+    }, 1000);
     setTimeout(function () {
         removeClass(timeSettersHolder, "loading");
-    },1500);
+    }, 1500);
     setTimeout(function () {
         removeClass(inputGroup, "loading");
-    },1500);
+    }, 1500);
 };
 
 
 //main functions
 
 function startTimer(time, timerSelector) {
-    var timerCount = time*60;
+    var timerCount = time * 60;
 
     //animation
-    var onePercent = 100/timerCount;
+    var onePercent = 100 / timerCount;
     var myPercents = 0;
 
     whenTimerStop(time);
@@ -195,7 +192,8 @@ function startTimer(time, timerSelector) {
     var hours;
     var minutes;
     var seconds;
-    function timer () {
+
+    function timer() {
         minutes = parseInt(timerCount / 60, 10);
         seconds = parseInt(timerCount % 60, 10);
         if (minutes >= 60) {
@@ -220,7 +218,7 @@ function startTimer(time, timerSelector) {
 
         timerCount--;
         //progress animation
-        progressStatus.style.width = (myPercents+"%");
+        progressStatus.style.width = (myPercents + "%");
         myPercents = myPercents += onePercent;
 
         if (timerCount < 0) {
@@ -228,8 +226,9 @@ function startTimer(time, timerSelector) {
             exitAlert();
         }
     }
+
     timer();
-    actualTimer = setInterval(timer,1000);
+    actualTimer = setInterval(timer, 1000);
 }
 
 window.onload = function () {
@@ -267,15 +266,15 @@ window.onload = function () {
     }
 
     //custom timer
-    function getUserTimer () {
-        userTimer.onclick = function (){
+    function getUserTimer() {
+        userTimer.onclick = function () {
             var recievedTime = userTimerInput.value;
             var time = parseInt(recievedTime);
             if (isNaN(time)) {
                 validationMessage.style.display = "block";
                 setTimeout(function () {
                     removeClass(validationMessage, "loading");
-                },500);
+                }, 500);
                 validationMessageText.innerHTML = "Only numbers please";
                 return;
             }
@@ -283,15 +282,15 @@ window.onload = function () {
                 validationMessage.style.display = "block";
                 setTimeout(function () {
                     removeClass(validationMessage, "loading");
-                },500);
+                }, 500);
                 validationMessageText.innerHTML = "Only integer number please";
                 return;
             }
-            else if (recievedTime <=0 || recievedTime > 24*60) {
+            else if (recievedTime <= 0 || recievedTime > 24 * 60) {
                 validationMessage.style.display = "block";
                 setTimeout(function () {
                     removeClass(validationMessage, "loading");
-                },500);
+                }, 500);
                 validationMessageText.innerHTML = "1440 minutes is one day. That is the maximum.";
                 return;
             }
@@ -301,6 +300,13 @@ window.onload = function () {
             recievedTime.value = "";
         }
     }
+
+    userTimerInput.addEventListener("keydown", function(e) {
+        if ([69, 187, 188, 189, 190].includes(e.keyCode)) {
+            e.preventDefault();
+        }
+    });
+
     getPresetTimers();
     getUserTimer();
     ready(whenItsReady);
