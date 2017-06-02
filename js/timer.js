@@ -22,7 +22,7 @@ function addClass(element, className) {
         element.classList.add(className);
     }
     else {
-        element.className += ' ' + className;
+        element.className += " " + className;
     }
 }
 
@@ -31,15 +31,15 @@ function removeClass(element, className) {
         element.classList.remove(className);
     }
     else {
-        element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+        element.className = element.className.replace(new RegExp("(^|\\b)" + className.split(" ").join("|") + "(\\b|$)", "gi"), " ");
     }
 }
 
 function ready(fn) {
-    if (document.readyState != 'loading') {
+    if (document.readyState != "loading") {
         fn();
     } else {
-        document.addEventListener('DOMContentLoaded', fn);
+        document.addEventListener("DOMContentLoaded", fn);
     }
 }
 
@@ -176,7 +176,6 @@ function writeValidatorMessage(message) {
 }
 
 var whenItsReady = function () {
-    //animations
     setTimeout(function () {
         removeClass(mainWrapper, "loading");
     }, 500);
@@ -247,7 +246,7 @@ function startTimer(time, timerSelector) {
 
 var afterLoading = function () {
     var time;
-    timerSelector = document.getElementById('timer');
+    timerSelector = document.getElementById("timer");
     timerHeader = document.getElementById("timer-header");
     confirmationButton = document.getElementById("confirm");
     alertMessage = document.getElementById("alert-message");
@@ -309,7 +308,7 @@ var afterLoading = function () {
         }
     });
 
-    userTimerInput.addEventListener('keypress', function (e) {
+    userTimerInput.addEventListener("keypress", function (e) {
         if (userTimerInput.value.length >= 4 && (e.keyCode != 8 || e.keyCode != 37 || e.keyCode != 46)) {
             e.preventDefault();
             return false;
