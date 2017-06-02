@@ -117,10 +117,10 @@ function exitAlert() {
         }, 1500);
         setTimeout(function () {
             timerHeader.style.display = "none";
-        }, 2500);
+        }, 2000);
         setTimeout(function () {
             validationMessage.style.display = "none";
-        }, 2500);
+        }, 2000);
     };
     confirmationButton.onclick = function () {
         progressStatus.style.width = 0;
