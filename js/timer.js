@@ -307,6 +307,14 @@ window.onload = function () {
         }
     });
 
+    userTimerInput.addEventListener('keypress', function (e) {
+        if (userTimerInput.value.length >= 4 && (e.keyCode != 8 || e.keyCode != 37 || e.keyCode != 46)) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+
     getPresetTimers();
     getUserTimer();
     ready(whenItsReady);
