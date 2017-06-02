@@ -231,7 +231,7 @@ function startTimer(time, timerSelector) {
     actualTimer = setInterval(timer, 1000);
 }
 
-window.onload = function () {
+var afterLoading = function () {
     var time;
     timerSelector = document.getElementById('timer');
     timerHeader = document.getElementById("timer-header");
@@ -314,11 +314,12 @@ window.onload = function () {
         }
     });
 
-
     getPresetTimers();
     getUserTimer();
-    ready(whenItsReady);
+    whenItsReady();
 };
+
+ready(afterLoading);
 
 
 
